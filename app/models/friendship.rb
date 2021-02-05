@@ -19,16 +19,18 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Friendship < ApplicationRecord
-  belongs_to :user
-  belongs_to :friend, class_name: 'User'
+  belongs_to :user, optional: false
+  belongs_to :friend, class_name: 'User', optional: false
 
   validates :user_id, uniqueness: { scope: :friend_id, message: 'They are already friends' }
-  validate :inverse_frindship
+  validate :inverse_friendship
 
   private
 
   # This method can be moved to a custom validator.
-  def inverse_frindship
+  def inverse_friendship
+    return if new_user_or_friend?
+
     # All user friends
     user_friends = FriendshipsQuery.new.both_ways(user_id: user.id)
 
@@ -38,5 +40,9 @@ class Friendship < ApplicationRecord
     return unless friendship.present?
 
     errors.add(:user_id, 'They are already friends')
+  end
+
+  def new_user_or_friend?
+    !user&.persisted? || !friend&.persisted?
   end
 end
