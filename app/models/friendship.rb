@@ -21,4 +21,22 @@
 class Friendship < ApplicationRecord
   belongs_to :user
   belongs_to :friend, class_name: 'User'
+
+  validates :user_id, uniqueness: { scope: :friend_id, message: 'They are already friends' }
+  validate :inverse_frindship
+
+  private
+
+  # This method can be moved to a custom validator.
+  def inverse_frindship
+    # All user friends
+    user_friends = FriendshipsQuery.new.both_ways(user_id: user.id)
+
+    # User friendship with friend
+    friendship = FriendshipsQuery.new(relation: user_friends).both_ways(user_id: friend.id)
+
+    return unless friendship.present?
+
+    errors.add(:user_id, 'They are already friends')
+  end
 end
