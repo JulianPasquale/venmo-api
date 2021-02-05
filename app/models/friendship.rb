@@ -31,13 +31,7 @@ class Friendship < ApplicationRecord
   def inverse_friendship
     return if new_user_or_friend?
 
-    # All user friends
-    user_friends = FriendshipsQuery.new.both_ways(user_id: user.id)
-
-    # User friendship with friend
-    friendship = FriendshipsQuery.new(relation: user_friends).both_ways(user_id: friend.id)
-
-    return unless friendship.present?
+    return unless FriendshipsQuery.new.friends?(user_id: user.id, friend_id: friend.id)
 
     errors.add(:user_id, 'They are already friends')
   end
