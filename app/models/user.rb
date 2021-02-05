@@ -23,6 +23,8 @@ class User < ApplicationRecord
            ->(user) { UsersQuery.new.friends(user_id: user.id, scope: true) },
            through: :friendships
 
+  has_one :payment_account, dependent: :destroy
+
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :first_name, :last_name, presence: true
 end

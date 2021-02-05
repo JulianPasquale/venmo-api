@@ -23,8 +23,9 @@ RSpec.describe User, type: :model do
   end
 
   describe 'associations' do
-    it { should have_many(:friendships).class_name('Friendship') }
+    it { should have_many(:friendships).class_name('Friendship').dependent(:destroy) }
     it { should have_many(:friends).through(:friendships).class_name('User') }
+    it { should have_one(:payment_account).dependent(:destroy) }
   end
 
   describe 'validations' do
