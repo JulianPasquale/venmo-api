@@ -27,4 +27,14 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :first_name, :last_name, presence: true
+
+  # This callback could be omitted using a service
+  # to create users and payment accounts in a transaction.
+  after_create :create_payment_account
+
+  private
+
+  def create_payment_account
+    PaymentAccount.create!(user: self)
+  end
 end

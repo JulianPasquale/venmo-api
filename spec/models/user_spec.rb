@@ -36,4 +36,15 @@ RSpec.describe User, type: :model do
     it { should validate_presence_of(:email) }
     it { should validate_uniqueness_of(:email).case_insensitive }
   end
+
+  describe 'after_create callbacks' do
+    let!(:user) { build(:user) }
+
+    subject { user.save }
+
+    it 'creates a Payment Account' do
+      expect { subject }.to(change { PaymentAccount.count })
+      expect(PaymentAccount.last).to have_attributes(user: user)
+    end
+  end
 end
