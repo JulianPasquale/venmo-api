@@ -21,8 +21,14 @@ group :development, :test do
   gem 'annotate'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'dotenv-rails'
+  gem 'rspec-rails', '~> 4.0.2'
   gem 'rubocop'
   gem 'rubocop-rails'
+end
+
+group :test do
+  gem 'factory_bot'
+  gem 'shoulda-matchers', '~> 4.0'
 end
 
 group :development do
