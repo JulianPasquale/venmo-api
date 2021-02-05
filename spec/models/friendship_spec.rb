@@ -40,26 +40,28 @@ RSpec.describe Friendship, type: :model do
     it { should validate_uniqueness_of(:user_id).scoped_to(:friend_id).with_message('They are already friends') }
   end
 
-  describe '#inverse_friendship' do
-    let(:user) { create(:user) }
-    let(:friend) { create(:user) }
+  describe 'custom validations' do
+    describe '#inverse_friendship' do
+      let(:user) { create(:user) }
+      let(:friend) { create(:user) }
 
-    subject { create(:friendship, user: user, friend: friend) }
+      subject { create(:friendship, user: user, friend: friend) }
 
-    context 'when users are friends' do
-      before do
-        subject
+      context 'when users are friends' do
+        before do
+          subject
+        end
+
+        it 'does not allow repeated friendships' do
+          expect { subject }.to_not(change { Friendship.count })
+        end
       end
 
-      it 'does not allow repeated friendships' do
-        expect { subject }.to_not(change { Friendship.count })
-      end
-    end
-
-    context 'when users are not friends' do
-      it 'creates users friendship' do
-        expect { subject }.to(change { Friendship.count }.by(1))
-        expect(Friendship.last).to have_attributes(user: user, friend: friend)
+      context 'when users are not friends' do
+        it 'creates users friendship' do
+          expect { subject }.to(change { Friendship.count }.by(1))
+          expect(Friendship.last).to have_attributes(user: user, friend: friend)
+        end
       end
     end
   end

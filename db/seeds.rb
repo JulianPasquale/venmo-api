@@ -9,5 +9,11 @@ users = 10.times.map do
 end
 
 users.each_slice(2) do |first_user, second_user|
-  Friendship.create(user: first_user, friend: second_user)
+  first_user.friends << second_user
+  first_user.sended_payments << Payment.new(
+    receiver: second_user,
+    amount: Faker::Number.decimal(l_digits: 3, r_digits: 3)
+  )
+
+  first_user.save
 end

@@ -25,6 +25,9 @@ class User < ApplicationRecord
 
   has_one :payment_account, dependent: :destroy
 
+  has_many :received_payments, dependent: :destroy, class_name: 'Payment', foreign_key: 'receiver_id'
+  has_many :sended_payments, dependent: :destroy, class_name: 'Payment', foreign_key: 'sender_id'
+
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :first_name, :last_name, presence: true
 
