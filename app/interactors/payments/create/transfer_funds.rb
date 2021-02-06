@@ -27,7 +27,8 @@ module Payments
         Payment.create!(
           sender: context.sender,
           receiver: context.receiver,
-          amount: context.amount
+          amount: context.amount,
+          description: context.description
         )
       end
 

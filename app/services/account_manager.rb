@@ -8,19 +8,20 @@ module AccountManager
   extend self
 
   def add_to_balance!(user:, amount:)
-    balance = user.balance
     account = user.payment_account
-
     no_payment_account!(user) unless account.present?
+
+    balance = user.balance
 
     account.update!(balance: balance + amount)
   end
 
   def deduct_balance!(user:, amount:)
-    balance = user.balance
     account = user.payment_account
 
     no_payment_account!(user) unless account.present?
+
+    balance = user.balance
 
     account.update!(balance: balance - amount)
   rescue ActiveRecord::RecordInvalid => e
