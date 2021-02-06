@@ -4,7 +4,8 @@ FactoryBot.define do
   factory :payment do
     sender
     receiver
-    amount { Faker::Number.decimal(l_digits: 3, r_digits: 3) }
+    amount { Faker::Number.between(from: 1, to: 1000) }
+    description { Faker::Lorem.sentence }
 
     transient do
       with_friendship { true }
