@@ -29,9 +29,9 @@ RSpec.describe Payments::Create::TransferFunds do
       expect { context }.to change { Payment.count }.by(1)
       expect(Payment.last).to(
         have_attributes(params.slice(:amount, :description).merge!(
-          sender_id: params[:sender].id,
-          receiver_id: params[:receiver].id
-        ))
+                          sender_id: params[:sender].id,
+                          receiver_id: params[:receiver].id
+                        ))
       )
     end
   end

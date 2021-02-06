@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :payment_account do
     user
-    balance { Faker::Number.decimal(l_digits: 3, r_digits: 3) }
+    balance { Faker::Number.between(from: 1, to: 1000) }
   end
 end

@@ -36,7 +36,11 @@ module Payments
           Object.new, sender
         )
 
-        negative_balance_error unless transfer_service.transfer(context.amount - sender.balance)
+        if transfer_service.transfer(context.amount - sender.balance)
+          context.sender.reload
+        else
+          negative_balance_error
+        end
       end
 
       def negative_balance_error
