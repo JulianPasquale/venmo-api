@@ -33,10 +33,10 @@ module Payments
 
       def transfer_from_bank
         transfer_service = MoneyTransferService.new(
-          Object.new, context.sender
+          Object.new, sender
         )
 
-        negative_balance_error unless transfer_service.transfer(context.amount - context.sender.balance)
+        negative_balance_error unless transfer_service.transfer(context.amount - sender.balance)
       end
 
       def negative_balance_error
