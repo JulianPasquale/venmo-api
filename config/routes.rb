@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :users, only: [] do
-    resources :payments, only: [:create]
+  namespace :api do
+    namespace :v1, defaults: { format: :json } do
+      resources :users, only: [] do
+        resources :payments, only: [:create]
 
-    collection do
-      get :feed
-      get :balance
+        collection do
+          get :feed
+          get :balance
+        end
+      end
     end
   end
 end
