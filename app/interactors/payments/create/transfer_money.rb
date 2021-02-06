@@ -13,6 +13,10 @@ module Payments
 
           add_to_balance!
         end
+      rescue NoPaymentAccount => e
+        context.fail!(errors: [e.message])
+      rescue InsufficientFunds
+        context.fail!(errors: ['Your funds are insufficient'])
       rescue ActiveRecord::RecordInvalid => e
         context.fail!(errors: e.record.errors.full_messages)
       end

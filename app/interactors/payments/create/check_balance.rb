@@ -9,8 +9,8 @@ module Payments
         context.sender = sender
         context.receiver = receiver
 
-        # We should charge account instead
-        # negative_balance_error unless context.sender.balance >= context.amount
+        # We should charge account
+        transfer_from_bank unless context.sender.balance >= context.amount
       end
 
       private
@@ -31,8 +31,16 @@ module Payments
         end
       end
 
+      def transfer_from_bank
+        transfer_service = MoneyTransferService.new(
+          Object.new, context.sender
+        )
+
+        negative_balance_error unless transfer_service.transfer(context.amount - context.sender.balance)
+      end
+
       def negative_balance_error
-        context.fail!(errors: ['You have not enough money!'])
+        context.fail!(errors: ['Your funds are insufficient and transfer from bank failed'])
       end
     end
   end

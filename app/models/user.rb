@@ -45,4 +45,8 @@ class User < ApplicationRecord
   def create_payment_account
     PaymentAccount.create!(user: self)
   end
+
+  def to_s
+    "#{last_name} #{first_name}"
+  end
 end
