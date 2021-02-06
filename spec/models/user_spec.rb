@@ -35,6 +35,20 @@ RSpec.describe User, type: :model do
     it { should validate_presence_of(:last_name) }
     it { should validate_presence_of(:email) }
     it { should validate_uniqueness_of(:email).case_insensitive }
+
+    context 'when user has a valid email' do
+      it 'has to be a valid record' do
+        expect(subject).to be_valid
+      end
+    end
+
+    context 'when user has a valid email' do
+      it 'has to be invalid' do
+        subject.email = 'this is not an email'
+
+        expect(subject).to_not be_valid
+      end
+    end
   end
 
   describe 'after_create callbacks' do
