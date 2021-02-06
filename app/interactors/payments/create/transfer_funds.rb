@@ -2,7 +2,7 @@
 
 module Payments
   module Create
-    class TransferMoney
+    class TransferFunds
       include Interactor
 
       def call

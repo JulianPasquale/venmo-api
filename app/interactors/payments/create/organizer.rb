@@ -5,7 +5,7 @@ module Payments
     class Organizer
       include Interactor::Organizer
 
-      organize ValidateParams, CheckBalance, TransferMoney
+      organize ValidateParams, CheckBalance, TransferFunds
     end
   end
 end
