@@ -34,6 +34,8 @@ class User < ApplicationRecord
 
   validates :first_name, :last_name, presence: true
 
+  delegate :balance, to: :payment_account
+
   # This callback could be omitted using a service
   # to create users and payment accounts in a transaction.
   after_create :create_payment_account
