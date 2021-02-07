@@ -77,4 +77,25 @@ RSpec.describe Payments::Create::TransferFunds do
       expect(context.errors).to match(expected_errors)
     end
   end
+
+  context 'when amount is invalid' do
+    let!(:params) do
+      build(
+        :transfer_funds_params,
+        sender: sender_account.user,
+        receiver: receiver_account.user,
+        amount: 5000
+      )
+    end
+
+    let!(:expected_errors) { ['Amount must be less than 1000'] }
+
+    it 'fails' do
+      expect(context).to be_a_failure
+    end
+
+    it 'returns amount error' do
+      expect(context.errors).to match(expected_errors)
+    end
+  end
 end
