@@ -1,17 +1,23 @@
-class UsersController < ApplicationController
-  before_action :set_user, only: %i[show update destroy]
+module Api
+  module V1
+    class UsersController < ApplicationController
+      def feed; end
 
-  def feed; end
+      def balance
+        result = Users::Balance::Organizer.call(user_params)
 
-  def balance; end
+        if result.success?
+          render json: result.data, status: result.status
+        else
+          render_error_json(result)
+        end
+      end
 
-  private
+      private
 
-  def set_user
-    @user = User.find(params[:id])
-  end
-
-  def user_params
-    params.require(:user).permit(:first_name, :last_name, :email)
+      def user_params
+        params.permit(:id)
+      end
+    end
   end
 end

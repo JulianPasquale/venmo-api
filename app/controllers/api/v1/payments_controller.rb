@@ -16,13 +16,6 @@ module Api
       def create_params
         params.permit(:user_id, :friend_id, :amount, :description)
       end
-
-      def render_error_json(result)
-        render json: {
-          status: :error,
-          errors: result.errors
-        }, status: result.error_status || :unprocessable_entity
-      end
     end
   end
 end
