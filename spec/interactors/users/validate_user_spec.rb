@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Users::Balance::ValidateUser do
+RSpec.describe Users::ValidateUser do
   let!(:user) { create(:user) }
   subject(:context) { described_class.call(id: user.id) }
 
