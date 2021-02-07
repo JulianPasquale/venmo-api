@@ -82,7 +82,7 @@ RSpec.describe UsersQuery do
       expect(subject.friends_up_to_second_level(user_id: user)).to include(*user.friends)
     end
 
-    it "includes user's friends friends (second level)" do
+    it "includes the friends of the user's friends (second level)" do
       expect(subject.friends_up_to_second_level(user_id: user)).to(
         include(*first_level_friendships.first.friend.friends)
       )

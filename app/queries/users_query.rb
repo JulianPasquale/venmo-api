@@ -9,8 +9,9 @@ class UsersQuery < BaseQuery
     )
   end
 
+  # This method result also include the user with id `user_id`.
   def friends_up_to_second_level(user_id:, relation: @relation)
-    first_level_friends = friends(user_id: user_id)
+    first_level_friends = friends(user_id: user_id, relation: relation)
     friends(user_id: first_level_friends).unscope(where: :id).distinct
   end
 
