@@ -29,6 +29,10 @@ class Payment < ApplicationRecord
   validate :self_payment
   after_save :users_friendship
 
+  def title
+    "#{sender} paid #{receiver} on #{created_at} - #{description}"
+  end
+
   private
 
   def self_payment

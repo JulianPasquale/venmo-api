@@ -40,13 +40,17 @@ class User < ApplicationRecord
   # to create users and payment accounts in a transaction.
   after_create :create_payment_account
 
+  def fullname
+    "#{last_name} #{first_name}"
+  end
+
+  def to_s
+    fullname
+  end
+
   private
 
   def create_payment_account
     PaymentAccount.create!(user: self)
-  end
-
-  def to_s
-    "#{last_name} #{first_name}"
   end
 end

@@ -15,7 +15,7 @@ module Users
 
       def response_data
         {
-          data: data,
+          data: data.as_json(methods: [:title], only: %i[amount description]),
           metadata: {
             page: page_number,
             per_page: data.limit_value,
