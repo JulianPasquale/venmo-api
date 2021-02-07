@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :payment do
     sender
     receiver
-    amount { Faker::Number.between(from: 1, to: 1000) }
+    amount { Faker::Number.between(from: 1, to: 999) }
     description { Faker::Lorem.sentence }
 
     transient do
