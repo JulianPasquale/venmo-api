@@ -11,6 +11,14 @@ RSpec.describe Users::Feed::BuildResponse do
 
   subject(:context) { described_class.call(params) }
 
+  let(:expected_payments) do
+    PaymentsQuery.new.second_level_friends_payments(
+      user_id: user
+    ).page(params[:page]).order(created_at: :desc).as_json(
+      methods: [:title], only: %i[amount description]
+    )
+  end
+
   context 'when provides page param' do
     let!(:payments) do
       create_list(:payment, 10, sender: user, receiver: friendships.first.friend)
@@ -28,7 +36,7 @@ RSpec.describe Users::Feed::BuildResponse do
 
     it 'provides response data' do
       expect(context.data[:data].size).to eq(10)
-      expect(context.data[:data].sort).to match(payments.sort)
+      expect(context.data[:data]).to match(expected_payments)
     end
 
     it 'provides response metadata' do
