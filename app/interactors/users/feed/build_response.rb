@@ -3,6 +3,12 @@
 module Users
   module Feed
     class BuildResponse
+      DATA_JSON_FORMAT = {
+        methods: %i[title],
+        only: %i[amount description]
+      }.freeze
+      DATA_JSON_ORDER = { created_at: :desc }.freeze
+
       include Interactor
 
       def call
@@ -15,7 +21,7 @@ module Users
 
       def response_data
         {
-          data: data.as_json(methods: [:title], only: %i[amount description]),
+          data: data.as_json(DATA_JSON_FORMAT),
           metadata: {
             page: page_number,
             per_page: data.limit_value,
@@ -27,7 +33,7 @@ module Users
       def data
         @data ||= PaymentsQuery.new.second_level_friends_payments(
           user_id: context.user
-        ).page(page_number).order(created_at: :desc)
+        ).page(page_number).order(DATA_JSON_ORDER)
       end
 
       def page_number

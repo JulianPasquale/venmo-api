@@ -14,8 +14,10 @@ RSpec.describe Users::Feed::BuildResponse do
   let(:expected_payments) do
     PaymentsQuery.new.second_level_friends_payments(
       user_id: user
-    ).page(params[:page]).order(created_at: :desc).as_json(
-      methods: [:title], only: %i[amount description]
+    ).page(params[:page]).order(
+      Users::Feed::BuildResponse::DATA_JSON_ORDER
+    ).as_json(
+      Users::Feed::BuildResponse::DATA_JSON_FORMAT
     )
   end
 
