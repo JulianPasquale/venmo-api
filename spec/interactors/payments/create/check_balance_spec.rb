@@ -9,16 +9,47 @@ RSpec.describe Payments::Create::CheckBalance do
     let!(:friendship) { create(:friendship) }
     let!(:params) { build(:check_balance_params, friendship: friendship) }
 
+
     it 'succeeds' do
       expect(context).to be_a_success
     end
 
-    it 'provides the sender' do
-      expect(context.sender).to eq(friendship.user)
+    context "when sender is friendship's user" do
+      let!(:params) do
+        build(
+          :check_balance_params,
+          friendship: friendship,
+          user_id: friendship.user_id,
+          friend_id: friendship.friend_id
+        )
+      end
+
+      it 'provides the sender' do
+        expect(context.sender).to eq(friendship.user)
+      end
+
+      it 'provides the receiver' do
+        expect(context.receiver).to eq(friendship.friend)
+      end
     end
 
-    it 'provides the receiver' do
-      expect(context.receiver).to eq(friendship.friend)
+    context "when sender is friendship's friend" do
+      let!(:params) do
+        build(
+          :check_balance_params,
+          friendship: friendship,
+          user_id: friendship.friend_id,
+          friend_id: friendship.user_id
+        )
+      end
+
+      it 'provides the sender' do
+        expect(context.sender).to eq(friendship.friend)
+      end
+
+      it 'provides the receiver' do
+        expect(context.receiver).to eq(friendship.user)
+      end
     end
 
     context 'when payment amount is greater than balance' do

@@ -4,21 +4,27 @@ require 'rails_helper'
 
 RSpec.describe FriendshipsQuery do
   let(:relation) { Friendship.all }
-  subject { described_class.new(relation: relation) }
+  subject { described_class.new }
 
   describe '#both_ways' do
     let(:user) { create(:user) }
     let(:friendship1) { create(:friendship, user: user) }
     let(:friendship2) { create(:friendship, friend: user) }
 
-    it 'returns all user friendships' do
-      expect(subject.both_ways(user_id: user.id)).to match([friendship1, friendship2])
+    context 'when provides relation on initialize' do
+      subject { described_class.new(relation: relation.limit(1)) }
+
+      it 'returns scoped user friendships' do
+        expect(subject.both_ways(user_id: user.id)).to(
+          match([friendship1])
+        )
+      end
     end
 
-    it 'returns scoped user friendships' do
-      expect(subject.both_ways(user_id: user.id, relation: relation.limit(1))).to(
-        match([friendship1])
-      )
+    context 'when using default relation on initialize' do
+      it 'returns all user friendships' do
+        expect(subject.both_ways(user_id: user.id)).to match([friendship1, friendship2])
+      end
     end
   end
 
@@ -42,7 +48,6 @@ RSpec.describe FriendshipsQuery do
     let(:friendship) { create(:friendship) }
 
     context 'when users are friends' do
-
       it 'returns true' do
         expect(subject.friends?(user_id: friendship.user, friend_id: friendship.friend)).to be true
       end
@@ -52,6 +57,12 @@ RSpec.describe FriendshipsQuery do
       it 'returns false' do
         expect(subject.friends?(user_id: friendship.user, friend_id: nil)).to be false
       end
+    end
+  end
+
+  describe '#model_name' do
+    it 'returns user class' do
+      expect(subject.send(:model_name)).to match(Friendship)
     end
   end
 end
