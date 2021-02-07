@@ -2,7 +2,7 @@ module Api
   module V1
     class UsersController < ApplicationController
       def feed
-        result = Users::Feed::Organizer.call(user_params)
+        result = Users::Feed::Organizer.call(feed_params)
 
         if result.success?
           render json: result.data, status: result.status
@@ -12,7 +12,7 @@ module Api
       end
 
       def balance
-        result = Users::Balance::Organizer.call(user_params)
+        result = Users::Balance::Organizer.call(balance_params)
 
         if result.success?
           render json: result.data, status: result.status
@@ -23,8 +23,12 @@ module Api
 
       private
 
-      def user_params
+      def balance_params
         params.permit(:id)
+      end
+
+      def feed_params
+        params.permit(:id, :page)
       end
     end
   end
