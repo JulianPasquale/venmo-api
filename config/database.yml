@@ -20,5 +20,3 @@ development:
 production:
   <<: *default
   database: <%= ENV['DATABASE_NAME'] %>_production
-
-
