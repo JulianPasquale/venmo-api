@@ -40,8 +40,12 @@ RSpec.describe PaymentsQuery do
     let!(:user) { create(:user) }
 
     let!(:first_level_friendships) { create_list(:friendship, 2, user: user) }
-    let!(:second_level_friendships1) { create_list(:friendship, 2, user: first_level_friendships.first.friend) }
-    let!(:second_level_friendships2) { create(:friendship, user: first_level_friendships.second.friend) }
+    let!(:second_level_friendships1) do
+      create_list(:friendship, 2, user: first_level_friendships.first.friend)
+    end
+    let!(:second_level_friendships2) do
+      create(:friendship, user: first_level_friendships.second.friend)
+    end
 
     let!(:third_level_user) { create(:user) }
     let!(:third_level_friendship) do
@@ -55,7 +59,12 @@ RSpec.describe PaymentsQuery do
     end
 
     let!(:payments_to_exclude) do
-      create_list(:payment, 2, sender: third_level_friendship.user, receiver: third_level_friendship.friend)
+      create_list(
+        :payment,
+        2,
+        sender: third_level_friendship.user,
+        receiver: third_level_friendship.friend
+      )
     end
 
     it 'returns expected payments' do

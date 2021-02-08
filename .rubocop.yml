@@ -74,3 +74,7 @@ AllCops:
   Exclude:
     - db/schema.rb
     - bin/*
+    - spec/rails_helper.rb
+    - spec/spec_helper.rb
+    - lib/tasks/auto_annotate_models.rake
+    - config/environments/*

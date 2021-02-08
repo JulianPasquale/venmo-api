@@ -9,7 +9,6 @@ RSpec.describe Payments::Create::CheckBalance do
     let!(:friendship) { create(:friendship) }
     let!(:params) { build(:check_balance_params, friendship: friendship) }
 
-
     it 'succeeds' do
       expect(context).to be_a_success
     end

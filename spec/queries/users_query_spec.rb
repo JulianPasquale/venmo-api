@@ -39,22 +39,32 @@ RSpec.describe UsersQuery do
 
     context 'when using scope true' do
       it 'do not include inner join clause on sql query' do
-        expect(subject.friends(user_id: user, scope: true).to_sql).to_not include('INNER JOIN friendships')
+        expect(subject.friends(user_id: user, scope: true).to_sql).to_not(
+          include('INNER JOIN friendships')
+        )
       end
 
       it 'include or condition' do
-        expect(subject.friends(user_id: user, scope: true).to_sql).to include('OR users.id = friendships.user_id')
+        expect(subject.friends(user_id: user, scope: true).to_sql).to(
+          include('OR users.id = friendships.user_id')
+        )
       end
     end
 
     context 'when using scope false' do
       it 'includes inner join clause on sql query' do
-        expect(subject.friends(user_id: user, scope: false).to_sql).to include('INNER JOIN friendships')
+        expect(subject.friends(user_id: user, scope: false).to_sql).to(
+          include('INNER JOIN friendships')
+        )
       end
 
       it 'includes on conditions' do
-        expect(subject.friends(user_id: user, scope: false).to_sql).to include('ON users.id = friendships.friend_id')
-        expect(subject.friends(user_id: user, scope: false).to_sql).to include('OR users.id = friendships.user_id')
+        expect(subject.friends(user_id: user, scope: false).to_sql).to(
+          include('ON users.id = friendships.friend_id')
+        )
+        expect(subject.friends(user_id: user, scope: false).to_sql).to(
+          include('OR users.id = friendships.user_id')
+        )
       end
     end
   end
@@ -68,8 +78,12 @@ RSpec.describe UsersQuery do
   describe '#friends_up_to_second_level' do
     let!(:user) { create(:user) }
     let!(:first_level_friendships) { create_list(:friendship, 2, user: user) }
-    let!(:second_level_friendships1) { create_list(:friendship, 2, user: first_level_friendships.first.friend) }
-    let!(:second_level_friendships2) { create(:friendship, user: first_level_friendships.second.friend) }
+    let!(:second_level_friendships1) do
+      create_list(:friendship, 2, user: first_level_friendships.first.friend)
+    end
+    let!(:second_level_friendships2) do
+      create(:friendship, user: first_level_friendships.second.friend)
+    end
 
     let(:expected_result) do
       first_level_friends = user.friends
