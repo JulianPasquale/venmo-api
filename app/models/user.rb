@@ -49,6 +49,8 @@ class User < ApplicationRecord
   # to create users and payment accounts in a transaction.
   after_create :create_payment_account
 
+  attr_writer :balance
+
   def fullname
     "#{last_name} #{first_name}"
   end
@@ -60,6 +62,6 @@ class User < ApplicationRecord
   private
 
   def create_payment_account
-    PaymentAccount.create!(user: self)
+    PaymentAccount.create!(user: self, balance: @balance || 0)
   end
 end
