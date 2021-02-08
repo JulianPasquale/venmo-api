@@ -92,7 +92,7 @@ RSpec.describe UsersQuery do
     end
 
     it 'matchs with expected friends list' do
-      expect(subject.friends_up_to_second_level(user_id: user)).to match(expected_result)
+      expect(subject.friends_up_to_second_level(user_id: user).order(:id)).to match(expected_result)
     end
   end
 end
