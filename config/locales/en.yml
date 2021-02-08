@@ -1,33 +1,30 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at https://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        friendship:
+          attributes:
+            user_id:
+              already_friends: 'and friend are already friends'
+        payment:
+          attributes:
+            sender_id:
+              no_friendship: 'and receiver are not friends'
+              self_payment:  'can not be yourself'
+  activemodel:
+    errors:
+      models:
+        validators/create_payment_params:
+          attributes:
+            user_id:
+              not_found: 'not found'
+            friend_id:
+              not_found: 'not found'
+
+
+  interactors:
+    errors:
+      user_not_found:                        'User not found'
+      no_payment_account:                    "User %{user} has no payment account associated"
+      insufficient_funds:                    'Your funds are insufficient'
+      insufficient_funds_and_transfer_error: 'Your funds are insufficient and transfer from bank failed'

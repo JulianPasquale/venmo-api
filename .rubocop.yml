@@ -1,0 +1,80 @@
+require: rubocop-rails
+
+Layout/LineLength:
+  Max: 100
+  AllowURI: true
+  URISchemes:
+    - http
+    - https
+
+Documentation:
+  Enabled: false
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - spec/**/*
+
+Metrics/AbcSize:
+  Max: 15
+  Exclude:
+    - db/migrate/**/*
+
+Metrics/BlockLength:
+  CountComments: false
+  Max: 25
+  Exclude:
+    - spec/**/*
+
+Metrics/BlockNesting:
+  Max: 4
+
+Metrics/ClassLength:
+  CountComments: false
+  Max: 200
+
+# Avoid complex methods.
+Metrics/CyclomaticComplexity:
+  Max: 6
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 24
+
+Metrics/ModuleLength:
+  CountComments: false
+  Max: 200
+
+Metrics/ParameterLists:
+  Max: 5
+  CountKeywordArgs: true
+
+Metrics/PerceivedComplexity:
+  Max: 12
+
+Style/BlockDelimiters:
+  EnforcedStyle: braces_for_chaining
+
+Style/Documentation:
+  Enabled: false
+
+Style/ExpandPathArguments:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/ModuleFunction:
+  Enabled: false
+
+Style/ReturnNil:
+  Enabled: true
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - db/schema.rb
+    - bin/*
+    - spec/rails_helper.rb
+    - spec/spec_helper.rb
+    - lib/tasks/auto_annotate_models.rake
+    - config/environments/*
