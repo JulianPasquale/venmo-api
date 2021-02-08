@@ -10,8 +10,9 @@
 #
 # Indexes
 #
-#  index_friendships_on_friend_id  (friend_id)
-#  index_friendships_on_user_id    (user_id)
+#  index_friendships_on_friend_id              (friend_id)
+#  index_friendships_on_user_id                (user_id)
+#  index_friendships_on_user_id_and_friend_id  (user_id,friend_id) UNIQUE
 #
 # Foreign Keys
 #

@@ -12,8 +12,9 @@
 #
 # Indexes
 #
-#  index_friendships_on_friend_id  (friend_id)
-#  index_friendships_on_user_id    (user_id)
+#  index_friendships_on_friend_id              (friend_id)
+#  index_friendships_on_user_id                (user_id)
+#  index_friendships_on_user_id_and_friend_id  (user_id,friend_id) UNIQUE
 #
 # Foreign Keys
 #
@@ -37,7 +38,11 @@ RSpec.describe Friendship, type: :model do
   describe 'validations' do
     subject { build(:friendship) }
 
-    it { should validate_uniqueness_of(:user_id).scoped_to(:friend_id).with_message('They are already friends') }
+    it 'validates user_id uniqueness' do
+      should validate_uniqueness_of(:user_id)
+        .scoped_to(:friend_id)
+        .with_message('They are already friends')
+    end
   end
 
   describe 'custom validations' do

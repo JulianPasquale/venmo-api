@@ -25,8 +25,17 @@ class User < ApplicationRecord
 
   has_one :payment_account, dependent: :destroy
 
-  has_many :received_payments, dependent: :destroy, class_name: 'Payment', foreign_key: 'receiver_id'
-  has_many :sended_payments, dependent: :destroy, class_name: 'Payment', foreign_key: 'sender_id'
+  has_many :received_payments,
+           dependent: :destroy,
+           class_name: 'Payment',
+           foreign_key: 'receiver_id',
+           inverse_of: :receiver
+
+  has_many :sended_payments,
+           dependent: :destroy,
+           class_name: 'Payment',
+           foreign_key: 'sender_id',
+           inverse_of: :sender
 
   validates :email, presence: true,
                     uniqueness: { case_sensitive: false },
