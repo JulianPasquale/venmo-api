@@ -61,4 +61,25 @@ RSpec.describe User, type: :model do
       expect(PaymentAccount.last).to have_attributes(user: user)
     end
   end
+
+  describe '#fullname' do
+    let!(:user) { build(:user) }
+
+    subject { user.full_name }
+
+    it 'retursn user fullname' do
+      expect { subject }.to(match("#{user.last_name} #{user.first_name}"))
+    end
+  end
+
+  describe '#fullname' do
+    let!(:user) { build(:user) }
+
+    subject { user.to_s }
+
+    it 'returns user fullname' do
+      expect(user).to receive(:fullname).and_return('fullname')
+      subject
+    end
+  end
 end
