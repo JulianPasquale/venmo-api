@@ -75,7 +75,7 @@ RSpec.describe UsersQuery do
       first_level_friends = user.friends
       second_level_friends = first_level_friends.map(&:friends).flatten
 
-      [user] + first_level_friends + second_level_friends
+      ([user] + first_level_friends + second_level_friends).sort_by(&:id)
     end
 
     it 'includes user direct friends' do

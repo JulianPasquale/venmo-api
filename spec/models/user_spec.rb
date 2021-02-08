@@ -65,10 +65,10 @@ RSpec.describe User, type: :model do
   describe '#fullname' do
     let!(:user) { build(:user) }
 
-    subject { user.full_name }
+    subject { user.fullname }
 
     it 'returns user fullname' do
-      expect { subject }.to(match("#{user.last_name} #{user.first_name}"))
+      expect(subject).to(match("#{user.last_name} #{user.first_name}"))
     end
   end
 end
