@@ -23,11 +23,11 @@ class UsersQuery < BaseQuery
 
   def friends_query(scope: false)
     if scope
-      <<~SQL
+      <<~SQL.squish
         OR users.id = friendships.user_id
       SQL
     else
-      <<~SQL
+      <<~SQL.squish
         INNER JOIN friendships
           ON users.id = friendships.friend_id
           OR users.id = friendships.user_id

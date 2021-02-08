@@ -9,7 +9,7 @@ module AccountManager
 
   def add_to_balance!(user:, amount:)
     account = user.payment_account
-    no_payment_account!(user) unless account.present?
+    no_payment_account!(user) if account.blank?
 
     balance = user.balance
 
@@ -19,13 +19,13 @@ module AccountManager
   def deduct_balance!(user:, amount:)
     account = user.payment_account
 
-    no_payment_account!(user) unless account.present?
+    no_payment_account!(user) if account.blank?
 
     balance = user.balance
 
     account.update!(balance: balance - amount)
   rescue ActiveRecord::RecordInvalid => e
-    raise unless e.record.errors[:balance].present?
+    raise if e.record.errors[:balance].blank?
 
     raise InsufficientFunds
   end

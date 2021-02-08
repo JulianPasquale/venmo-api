@@ -5,9 +5,9 @@ module Users
     include Interactor
 
     def call
-      return not_found_user_error unless user.present?
+      return not_found_user_error if user.blank?
 
-      return no_payment_account_error unless account.present?
+      return no_payment_account_error if account.blank?
 
       context.user = user
       context.account = account

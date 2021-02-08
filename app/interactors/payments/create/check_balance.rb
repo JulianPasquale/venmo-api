@@ -17,17 +17,21 @@ module Payments
 
       def sender
         @sender ||= begin
-          return context.friendship.user if context.friendship.user.id == context.user_id.to_i
-
-          context.friendship.friend
+          if context.friendship.user.id == context.user_id.to_i
+            context.friendship.user
+          else
+            context.friendship.friend
+          end
         end
       end
 
       def receiver
         @receiver ||= begin
-          return context.friendship.user if context.friendship.user.id == context.friend_id.to_i
-
-          context.friendship.friend
+          if context.friendship.user.id == context.friend_id.to_i
+            context.friendship.user
+          else
+            context.friendship.friend
+          end
         end
       end
 

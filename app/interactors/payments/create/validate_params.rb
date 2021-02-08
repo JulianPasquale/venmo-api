@@ -10,7 +10,7 @@ module Payments
 
         return respond_with_error(validator) unless validator.valid?
 
-        return no_friendship_error unless friendship.present?
+        return no_friendship_error if friendship.blank?
 
         context.friendship = friendship
       end
