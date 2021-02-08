@@ -25,7 +25,7 @@ require 'rails_helper'
 RSpec.describe Payment, type: :model do
   describe 'Factory' do
     it 'has a valid factory' do
-      expect(build_stubbed(:payment)).to be_valid
+      expect(create(:payment)).to be_valid
     end
   end
 
@@ -51,7 +51,19 @@ RSpec.describe Payment, type: :model do
       context 'when user do a payment to himself' do
         let!(:receiver) { sender }
 
-        it { expect(subject).to_not be_valid }
+        it 'is valid' do
+          expect(subject).to_not be_valid
+        end
+
+        it 'returns expected error message' do
+          subject.validate
+          expect(subject.errors.messages_for(:sender_id)).to include(
+            I18n.t(
+              :self_payment,
+              scope: %i[activerecord errors models payment attributes sender_id]
+            )
+          )
+        end
       end
 
       context 'when user do a payment to other user' do
@@ -65,23 +77,40 @@ RSpec.describe Payment, type: :model do
       let!(:sender) { create(:user) }
       let!(:receiver) { create(:user) }
 
+      subject do
+        build(:payment, with_friendship: false, sender: sender, receiver: receiver)
+      end
+
       context 'when users are friends' do
         let!(:friendship) do
           create(:friendship, user: sender, friend: receiver)
         end
 
-        subject do
-          build(:payment, with_friendship: false, sender: sender, receiver: receiver)
+        it 'is valid' do
+          subject.validate
+          expect(subject).to be_valid
         end
 
-        it { expect(subject).to be_valid }
-        it { expect { subject.save }.to(change { Payment.count }.by(1)) }
+        it 'saves payment' do
+          expect { subject.save }.to(change { Payment.count }.by(1))
+        end
       end
 
       context 'when users are not friends' do
-        let!(:payment) { build(:payment, with_friendship: false) }
+        it 'is not valid' do
+          subject.validate
+          expect(subject).to_not be_valid
+        end
 
-        it { expect(payment).to_not be_valid }
+        it 'returns expected error message' do
+          subject.validate
+          expect(subject.errors.messages_for(:sender_id)).to include(
+            I18n.t(
+              :no_friendship,
+              scope: %i[activerecord errors models payment attributes sender_id]
+            )
+          )
+        end
       end
     end
   end

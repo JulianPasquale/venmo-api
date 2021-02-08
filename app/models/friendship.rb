@@ -23,7 +23,7 @@ class Friendship < ApplicationRecord
   belongs_to :user, optional: false
   belongs_to :friend, class_name: 'User', optional: false
 
-  validates :user_id, uniqueness: { scope: :friend_id, message: 'They are already friends' }
+  validates :user_id, uniqueness: { scope: :friend_id, message: :already_friends }
   validate :inverse_friendship
 
   private
@@ -34,7 +34,7 @@ class Friendship < ApplicationRecord
 
     return unless FriendshipsQuery.new.friends?(user_id: user.id, friend_id: friend.id)
 
-    errors.add(:user_id, 'They are already friends')
+    errors.add(:user_id, :already_friends)
   end
 
   def new_user_or_friend?

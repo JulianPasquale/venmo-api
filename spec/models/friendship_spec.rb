@@ -41,7 +41,12 @@ RSpec.describe Friendship, type: :model do
     it 'validates user_id uniqueness' do
       should validate_uniqueness_of(:user_id)
         .scoped_to(:friend_id)
-        .with_message('They are already friends')
+        .with_message(
+          I18n.t(
+            :already_friends,
+            scope: %i[activerecord errors models friendship attributes user_id]
+          )
+        )
     end
   end
 

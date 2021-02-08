@@ -27,7 +27,7 @@ class Payment < ApplicationRecord
   validates :amount, presence: true, numericality: { greater_than: 0, less_than: 1000 }
 
   validate :self_payment
-  after_save :users_friendship
+  validate :users_friendship
 
   def title
     "#{sender} paid #{receiver} on #{created_at} - #{description}"
@@ -38,13 +38,13 @@ class Payment < ApplicationRecord
   def self_payment
     return unless sender_id == receiver_id
 
-    errors.add(:sender_id, 'You can not do a payment to yourself')
+    errors.add(:sender_id, :self_payment)
   end
 
   def users_friendship
-    return if !sender.persisted? || !receiver.persisted?
-    return if FriendshipsQuery.new.friends?(user_id: receiver.id, friend_id: sender.id)
+    return if sender.blank? || receiver.blank?
+    return if sender.friends.include?(receiver)
 
-    errors.add(:sender_id, 'Users are not friends')
+    errors.add(:sender_id, :no_friendship)
   end
 end

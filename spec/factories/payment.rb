@@ -11,10 +11,10 @@ FactoryBot.define do
       with_friendship { true }
     end
 
-    before(:validate) do |params, evaluator|
+    after(:build) do |params, evaluator|
       next unless evaluator.with_friendship
 
-      Friendship.new(user: params.sender, friend: params.receiver)
+      params.sender.friends << params.receiver
     end
   end
 end
