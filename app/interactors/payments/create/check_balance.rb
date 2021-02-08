@@ -48,7 +48,14 @@ module Payments
       end
 
       def negative_balance_error
-        context.fail!(errors: ['Your funds are insufficient and transfer from bank failed'])
+        context.fail!(
+          errors: [
+            I18n.t(
+              :insufficcient_funds_and_transfer_error,
+              scope: %i[interactors errors]
+            )
+          ]
+        )
       end
     end
   end

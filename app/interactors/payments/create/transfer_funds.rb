@@ -4,6 +4,10 @@ module Payments
   module Create
     class TransferFunds
       include Interactor
+      INSUFFICIENT_FUNDS_ERROR = I18n.t(
+        :insufficient_funds,
+        scope: %i[interactors errors]
+      ).freeze
 
       def call
         ActiveRecord::Base.transaction do
@@ -16,7 +20,9 @@ module Payments
       rescue NoPaymentAccount => e
         context.fail!(errors: [e.message])
       rescue InsufficientFunds
-        context.fail!(errors: ['Your funds are insufficient'])
+        context.fail!(
+          errors: [INSUFFICIENT_FUNDS_ERROR]
+        )
       rescue ActiveRecord::RecordInvalid => e
         context.fail!(errors: e.record.errors.full_messages)
       end

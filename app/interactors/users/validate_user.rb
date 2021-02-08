@@ -24,11 +24,22 @@ module Users
     end
 
     def not_found_user_error
-      context.fail!(errors: ['User not found'], error_status: :not_found)
+      context.fail!(
+        errors: [I18n.t(:user_not_found, scope: %i[interactors errors])],
+        error_status: :not_found
+      )
     end
 
     def no_payment_account_error
-      context.fail!(errors: ["User #{user} has no payment account associated"])
+      context.fail!(
+        errors: [
+          I18n.t(
+            :no_payment_account,
+            scope: %i[interactors errors],
+            user: user
+          )
+        ]
+      )
     end
   end
 end

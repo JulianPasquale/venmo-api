@@ -5,10 +5,26 @@ en:
         friendship:
           attributes:
             user_id:
-              already_friends: 'Users are already friends'
+              already_friends: 'and friend are already friends'
         payment:
           attributes:
             sender_id:
-              no_friendship: 'Users are not friends'
-              self_payment: 'You can not do a payment to yourself'
-        
+              no_friendship: 'and receiver are not friends'
+              self_payment:  'can not be yourself'
+  activemodel:
+    errors:
+      models:
+        validators/create_payment_params:
+          attributes:
+            user_id:
+              not_found: 'not found'
+            friend_id:
+              not_found: 'not found'
+
+
+  interactors:
+    errors:
+      user_not_found:                         'User not found'
+      no_payment_account:                     "User %{user} has no payment account associated"
+      insufficcient_funds:                    'Your funds are insufficient'
+      insufficcient_funds_and_transfer_error: 'Your funds are insufficient and transfer from bank failed'

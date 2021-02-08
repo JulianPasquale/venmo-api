@@ -49,7 +49,7 @@ RSpec.describe Users::Feed::Organizer do
   context 'when user_id is invalid' do
     let!(:friendship) { build(:friendship) }
 
-    let(:expected_errors) { ['User not found'] }
+    let(:expected_errors) { [I18n.t(:user_not_found, scope: %i[interactors errors])] }
 
     it 'fails' do
       expect(context).to be_a_failure
@@ -62,7 +62,15 @@ RSpec.describe Users::Feed::Organizer do
   end
 
   context 'when user has no payment account' do
-    let(:expected_errors) { ["User #{friendship.user} has no payment account associated"] }
+    let(:expected_errors) do
+      [
+        I18n.t(
+          :no_payment_account,
+          scope: %i[interactors errors],
+          user: friendship.user
+        )
+      ]
+    end
 
     before do
       friendship.user.payment_account.destroy!

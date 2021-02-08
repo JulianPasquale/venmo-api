@@ -14,7 +14,9 @@ FactoryBot.define do
     after(:build) do |params, evaluator|
       next unless evaluator.with_friendship
 
-      params.sender.friends << params.receiver
+      unless params.sender.friends.include?(params.receiver)
+        params.sender.friends << params.receiver
+      end
     end
   end
 end

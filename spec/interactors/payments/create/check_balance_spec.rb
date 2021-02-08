@@ -66,7 +66,14 @@ RSpec.describe Payments::Create::CheckBalance do
           )
         end
 
-        let(:expected_errors) { ['Your funds are insufficient and transfer from bank failed'] }
+        let(:expected_errors) do
+          [
+            I18n.t(
+              :insufficcient_funds_and_transfer_error,
+              scope: %i[interactors errors]
+            )
+          ]
+        end
 
         it 'fails' do
           expect(context).to be_a_failure

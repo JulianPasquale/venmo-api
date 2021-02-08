@@ -5,6 +5,13 @@ require 'rails_helper'
 RSpec.describe Payments::Create::TransferFunds do
   let!(:sender_account) { create(:payment_account, balance: 1000) }
   let!(:receiver_account) { create(:payment_account) }
+  let!(:friendship) do
+    create(
+      :friendship,
+      user: sender_account.user,
+      friend: receiver_account.user
+    )
+  end
 
   let!(:params) do
     build(:transfer_funds_params, sender: sender_account.user, receiver: receiver_account.user)
@@ -28,19 +35,37 @@ RSpec.describe Payments::Create::TransferFunds do
     it 'creates a payment' do
       expect { context }.to change { Payment.count }.by(1)
       expect(Payment.last).to(
-        have_attributes(params.slice(:amount, :description).merge!(
-                          sender_id: params[:sender].id,
-                          receiver_id: params[:receiver].id
-                        ))
+        have_attributes(
+          params.slice(:amount, :description).merge!(
+            sender_id: params[:sender].id,
+            receiver_id: params[:receiver].id
+          )
+        )
       )
     end
   end
 
   context 'when payments accounts are missing' do
     let!(:sender) { create(:user, payment_account: nil) }
-    let(:expected_errors) { ["User #{sender} has no payment account associated"] }
+    let!(:friendship) do
+      create(
+        :friendship,
+        user: sender,
+        friend: receiver_account.user
+      )
+    end
     let!(:params) do
       build(:transfer_funds_params, sender: sender, receiver: receiver_account.user)
+    end
+
+    let(:expected_errors) do
+      [
+        I18n.t(
+          :no_payment_account,
+          scope: %i[interactors errors],
+          user: sender
+        )
+      ]
     end
 
     it 'fails' do
@@ -67,7 +92,14 @@ RSpec.describe Payments::Create::TransferFunds do
       )
     end
 
-    let(:expected_errors) { ['Your funds are insufficient'] }
+    let(:expected_errors) do
+      [
+        I18n.t(
+          :insufficient_funds,
+          scope: %i[interactors errors]
+        )
+      ]
+    end
 
     it 'fails' do
       expect(context).to be_a_failure

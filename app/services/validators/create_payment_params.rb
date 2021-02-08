@@ -20,9 +20,9 @@ module Validators
       return if users_ids.count == 2
 
       if users_ids.include?(user_id.to_i)
-        errors.add(:friend_id, 'does not exists')
+        errors.add(:friend_id, :not_found)
       else
-        errors.add(:user_id, 'does not exists')
+        errors.add(:user_id, :not_found)
       end
     end
   end

@@ -69,7 +69,21 @@ RSpec.describe Validators::CreatePaymentParams do
           )
         end
 
-        let(:expected_message) { ['does not exists'] }
+        let(:expected_message) do
+          [
+            I18n.t(
+              :not_found,
+              scope: %i[
+                activemodel
+                errors
+                models
+                validators/create_payment_params
+                attributes
+                user_id
+              ]
+            )
+          ]
+        end
 
         it_behaves_like 'an invalid parameter', :user_id
 
@@ -89,7 +103,21 @@ RSpec.describe Validators::CreatePaymentParams do
           )
         end
 
-        let(:expected_message) { ['does not exists'] }
+        let(:expected_message) do
+          [
+            I18n.t(
+              :not_found,
+              scope: %i[
+                activemodel
+                errors
+                models
+                validators/create_payment_params
+                attributes
+                user_id
+              ]
+            )
+          ]
+        end
 
         it_behaves_like 'an invalid parameter', :friend_id
 

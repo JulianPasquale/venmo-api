@@ -33,6 +33,13 @@ module AccountManager
   private
 
   def no_payment_account!(user)
-    raise NoPaymentAccount, "User #{user} has no payment account associated"
+    raise(
+      NoPaymentAccount,
+      I18n.t(
+        :no_payment_account,
+        scope: %i[interactors errors],
+        user: user
+      )
+    )
   end
 end

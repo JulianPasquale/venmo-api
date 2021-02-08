@@ -23,7 +23,12 @@ RSpec.describe AccountManager do
 
       it 'raises an exception' do
         expect { subject }.to raise_error(
-          NoPaymentAccount, "User #{user} has no payment account associated"
+          NoPaymentAccount,
+          I18n.t(
+            :no_payment_account,
+            scope: %i[interactors errors],
+            user: user
+          )
         )
       end
     end
@@ -54,7 +59,12 @@ RSpec.describe AccountManager do
 
       it 'raises an exception' do
         expect { subject }.to raise_error(
-          NoPaymentAccount, "User #{user} has no payment account associated"
+          NoPaymentAccount,
+          I18n.t(
+            :no_payment_account,
+            scope: %i[interactors errors],
+            user: user
+          )
         )
       end
     end
