@@ -69,7 +69,7 @@ RSpec.describe Payments::Create::CheckBalance do
         let(:expected_errors) do
           [
             I18n.t(
-              :insufficcient_funds_and_transfer_error,
+              :insufficient_funds_and_transfer_error,
               scope: %i[interactors errors]
             )
           ]

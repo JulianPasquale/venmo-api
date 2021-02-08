@@ -51,7 +51,7 @@ module Payments
         context.fail!(
           errors: [
             I18n.t(
-              :insufficcient_funds_and_transfer_error,
+              :insufficient_funds_and_transfer_error,
               scope: %i[interactors errors]
             )
           ]

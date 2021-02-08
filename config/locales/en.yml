@@ -24,7 +24,7 @@ en:
 
   interactors:
     errors:
-      user_not_found:                         'User not found'
-      no_payment_account:                     "User %{user} has no payment account associated"
-      insufficcient_funds:                    'Your funds are insufficient'
-      insufficcient_funds_and_transfer_error: 'Your funds are insufficient and transfer from bank failed'
+      user_not_found:                        'User not found'
+      no_payment_account:                    "User %{user} has no payment account associated"
+      insufficient_funds:                    'Your funds are insufficient'
+      insufficient_funds_and_transfer_error: 'Your funds are insufficient and transfer from bank failed'
