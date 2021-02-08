@@ -33,7 +33,7 @@ module Users
       def data
         @data ||= PaymentsQuery.new.second_level_friends_payments(
           user_id: context.user
-        ).page(page_number).order(DATA_JSON_ORDER)
+        ).page(page_number).order(DATA_JSON_ORDER).eager_load(:sender, :receiver)
       end
 
       def page_number
