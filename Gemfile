@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby '2.7.2'
 
 gem 'bootsnap', '>= 1.4.4', require: false
+gem 'dotenv-rails'
 gem 'faker'
 gem 'interactor', '~> 3.0'
 gem 'kaminari'
@@ -19,7 +20,6 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 group :development, :test do
   gem 'annotate'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
-  gem 'dotenv-rails'
   gem 'rspec-rails', '~> 4.0.2'
   gem 'rubocop'
   gem 'rubocop-rails'
